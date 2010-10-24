@@ -541,6 +541,8 @@ def get_cookies_from_sqlite_xulrunner(host, cookies_sqlite, name):
 
 def get_bugzilla_cookies_ff3(host):
     profiles_dir = os.path.expanduser('~/.mozilla/firefox')
+    if os.uname()[0] == 'Darwin':
+        profiles_dir = os.path.expanduser('~/Library/Application Support/Firefox')
     profile_path = None
 
     cp = RawConfigParser()
@@ -592,9 +594,13 @@ def get_bugzilla_cookies_chromium(host):
                                     '~/.config/chromium/Default')
 
 def get_bugzilla_cookies_google_chrome(host):
+    if os.uname()[0] == 'Darwin':
+        config_dir = '~/Library/Application Support/Google/Chrome/Default'
+    else:
+        config_dir = '~/.config/chromium/Default'
     return get_bugzilla_cookies_chr(host,
                                     "Google Chrome",
-                                    '~/.config/google-chrome/Default')
+                                    config_dir)
 
 browsers = { 'firefox3'     : get_bugzilla_cookies_ff3,
              'epiphany'     : get_bugzilla_cookies_epy,
